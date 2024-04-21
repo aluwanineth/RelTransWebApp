@@ -1,0 +1,89 @@
+<h2 class="content-block">Design GA</h2>
+<div class="content-block">
+  <div class="dx-card responsive-paddings">
+    <dx-data-grid id="gridContainer" class="dx-card wide-card" [dataSource]="dataSource" [focusedRowEnabled]="true"
+    [focusedRowIndex]="0" [columnAutoWidth]="true" [wordWrapEnabled]="true" keyExpr="recid" [showBorders]="true"
+    [columnHidingEnabled]="true">
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxi-column dataField="jobNo" column="Job jobNo">
+    </dxi-column>
+    <dxi-column dataField="specNo" column="Specification No">
+    </dxi-column>
+    <dxi-column dataField="accNo" column="Account No">
+    </dxi-column>
+    <dxi-column dataField="revNo" column="Rev No">
+    </dxi-column>
+    <dxi-column dataField="docName" column="Document Name">
+    </dxi-column>
+    <dxi-column dataField="status" column="Status">
+    </dxi-column>
+    <dxi-column dataField="progress" column="Progress">
+    </dxi-column>
+    <dxi-column type="buttons" [width]="110">
+      <dxi-button  
+                  hint="Download file" 
+                  icon="download"
+                  [onClick]="downloadOnClick">
+      </dxi-button>
+      <dxi-button  
+      hint="Upload Document" 
+      icon="upload"
+      [onClick]="viewUploadForm">
+</dxi-button>
+    </dxi-column>
+  </dx-data-grid>
+</div>
+</div>
+<dx-load-panel #loadPanel shadingColor="rgba(0,0,0,0.4)" [position]="{ of: '#gridContainer' }"
+[(visible)]="loadingVisible" [showIndicator]="true" [showPane]="true" [shading]="true"
+[closeOnOutsideClick]="false">
+</dx-load-panel>
+
+<dx-popup [width]="550" [height]="480" [showTitle]="true" title="Upload File" [dragEnabled]="false"
+  [closeOnOutsideClick]="false" [(visible)]="popupVisible"  [showCloseButton]="true">
+  <form id="form" #form method="post" action="" enctype="multipart/form-data">
+    <div class="dx-fieldset">
+      <div class="dx-field">
+        <dx-select-box
+                  [acceptCustomValue]="true"
+                  [items]="statusData"
+                  [(value)]="statusLabel"
+                  placeholder="Choose Status"
+                  [showClearButton]="true"
+                  (onValueChanged)="onValueChanged($event)">
+              ></dx-select-box>
+      </div>
+      <div class="dx-field">
+        <dx-text-area
+          [maxHeight]="50"
+          [maxHeight]="300"
+          label="Notes" 
+          [(value)] = "notes"
+    >
+    </dx-text-area>
+      </div>
+    </div>
+    <div id="fileuploader-container">
+      <dx-file-uploader
+      [multiple]="true"
+      uploadMode="useForm"
+      uploadUrl="uploadUrl"
+      [(value)]="value"
+      accept=".pdf"
+      (onUploaded)="onUploaded($event)"
+      (onProgress)="onProgress($event)"
+      (onUploadStarted)="onUploadStarted($event)"
+    >
+    </dx-file-uploader>
+    </div>
+  <dx-button id="button"
+     text="Upload file" 
+     type="default" 
+     (onClick)="uploadFile(value)"
+     [disabled]="value.length <= 0 || !valueChange"></dx-button>
+  </form>
+</dx-popup>
+

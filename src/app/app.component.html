@@ -1,0 +1,16 @@
+<ng-container *ngIf="isAuthenticated(); else unauthenticated">
+  <app-side-nav-outer-toolbar title="{{appInfo.title}}">
+    <router-outlet></router-outlet>
+    <app-footer>
+      Copyright © {{appInfo.currentYear}} <a href="https://www.reltrans.co.za/">Reliable Transformers.</a>
+      <br/>
+      All trademarks or registered trademarks are property of their respective owners.
+      <br/>
+      Designed by <a href="https://www.kodeca.co.za/">Kodeca Consulting PTY LTD</a>
+    </app-footer>
+  </app-side-nav-outer-toolbar>
+</ng-container>
+
+<ng-template #unauthenticated>
+  <app-unauthenticated-content></app-unauthenticated-content>
+</ng-template>
